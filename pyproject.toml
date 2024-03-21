@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "libtcrlm"
+authors = [
+    {name = "Yuta Nagano", email = "yutanagano51@proton.me"}
+]
+description = "TCR language modelling library using Pytorch."
+dependencies = [
+    "blosum~=2.0",
+    "pandas~=2.2",
+    "torch~=2.2",
+    "tidytcells~=2.1"
+]
+dynamic = ["version"]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-cov"
+]
+
+[tool.setuptools.dynamic]
+version = {attr = "libtcrlm.VERSION"}

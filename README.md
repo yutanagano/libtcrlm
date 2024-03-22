@@ -1,7 +1,9 @@
 # libtcrlm
 
 This is the TCR language modelling library that powers SCEPTR.
-It is mostly a thin layer around PyTorch with some custom infrastructure.
+It is a thin layer around PyTorch with some extra infrastructure.
+The library is designed only to contain the code that is necessary when deploying trained SCEPTR models.
+By having this code as its own lightweight library, we remove code duplication between the training/development codebase as well as the deployment codebase.
 This should stay closed-source until SCEPTR is published.
 
 ## Installation

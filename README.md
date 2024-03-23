@@ -1,5 +1,11 @@
 # libtcrlm
 
+> [!NOTE]
+> **To new collaborators that have been added to this repository:**
+> You have been added to this repository because you have access to the `sceptr` repository.
+> `libtcrlm` (this package) is now a dependency of `sceptr`, and so to install the newest deployments of `sceptr` you need access to this private repository as well.
+> In summary, you have been given access so that you can keep using the newest versions of `sceptr`.
+
 This is the TCR language modelling library that powers SCEPTR.
 It is a thin layer around PyTorch with some extra infrastructure.
 
@@ -9,11 +15,6 @@ By having this code as its own lightweight library, we **remove code duplication
 This should stay closed-source until SCEPTR is published.
 
 ## Installation
-
-> [!NOTE]
-> This is a library package.
-> If you would like to download and use trained SCEPTR models, please refer to the `sceptr` deployment repository.
-> The only time it would be useful to download this library is if you would like to use the infrastructure to engineer/train your own TCR language models.
 
 From your python environment, run the following, replacing `<VERSION_TAG>` with the appropriate version specifier.
 The latest release tags can be found by checking the 'releases' section on the github repository page.

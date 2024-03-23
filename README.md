@@ -10,7 +10,7 @@ This should stay closed-source until SCEPTR is published.
 
 ## Installation
 
-> [!Tip]
+> [!NOTE]
 > This is a library package.
 > If you would like to download and use trained SCEPTR models, please refer to the `sceptr` deployment repository.
 > The only time it would be useful to download this library is if you would like to use the infrastructure to engineer/train your own TCR language models.

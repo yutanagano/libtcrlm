@@ -60,6 +60,40 @@ class CdrSimpleEmbedder(TokenEmbedder):
         return all_components_stacked
 
 
+class CdrEmbedder(TokenEmbedder):
+    def __init__(self, embedding_dim: int) -> None:
+        super().__init__()
+
+        self._embedding_dim = embedding_dim
+
+        self.token_embedding = Embedding(
+            num_embeddings=len(AminoAcidTokenIndex),
+            embedding_dim=embedding_dim,
+            padding_idx=DefaultTokenIndex.NULL,
+        )
+        self.position_embedding = SinPositionEmbedding(
+            num_embeddings=MAX_PLAUSIBLE_CDR_LENGTH, embedding_dim=embedding_dim
+        )
+        self.compartment_embedding = Embedding(
+            num_embeddings=len(CdrCompartmentIndex),
+            embedding_dim=embedding_dim,
+            padding_idx=DefaultTokenIndex.NULL,
+        )
+
+    def forward(self, tokenised_tcrs: LongTensor) -> FloatTensor:
+        token_component = self.token_embedding.forward(tokenised_tcrs[:, :, 0])
+        position_component = self.position_embedding.forward(tokenised_tcrs[:, :, 1])
+        compartment_component = self.compartment_embedding.forward(
+            tokenised_tcrs[:, :, 3]
+        )
+
+        all_components_summed = (
+            token_component + position_component + compartment_component
+        )
+
+        return all_components_summed * math.sqrt(self._embedding_dim)
+
+
 class SingleChainCdrEmbedder(TokenEmbedder):
     def __init__(self, embedding_dim: int) -> None:
         super().__init__()

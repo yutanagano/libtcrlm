@@ -2,7 +2,7 @@
 
 This is the TCR language modelling library that powers SCEPTR.
 It is a thin layer around PyTorch with some extra infrastructure.
-Note that this repository only contains library code-- for a readily-usable deployment of SCEPTR, code used to train the models, or code used to conduct the analyses seen in the SCEPTR publication, please see the links below.
+Note that this repository only contains library code- for a readily-usable deployment of SCEPTR, code used to train the models, or code used to conduct the analyses seen in the SCEPTR publication, please see the links below.
 
 ## Related links
 

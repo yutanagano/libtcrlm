@@ -8,6 +8,6 @@ Note that this repository only contains library code-- for a readily-usable depl
 
 |Link|Description|
 |----|-----------|
-|[https://github.com/yutanagano/sceptr]|Readily usable deployment of SCEPTR|
-|[https://github.com/yutanagano/sceptr_publication_analyses]|Code used for conducting the analyses seen in the SCEPTR publication|
-|[https://github,com/yutanagano/tcrlm]|Code used for training models|
+|https://github.com/yutanagano/sceptr|Readily usable deployment of SCEPTR|
+|https://github.com/yutanagano/sceptr_publication_analyses|Code used for conducting the analyses seen in the SCEPTR publication|
+|https://github.com/yutanagano/tcrlm|Code used for training models|

@@ -6,7 +6,7 @@ Note that this repository only contains library code- for a readily-usable deplo
 
 ## Related links
 
-> [!NOTE] The repositories below are not yet public, but will be opened up in the coming days along when the SCEPTR publication is also made public.
+> ![NOTE] The repositories below are not yet public, but will be opened up in the coming days along when the SCEPTR publication is also made public.
 > Please stay tuned!
 
 |Link|Description|

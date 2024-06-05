@@ -23,7 +23,6 @@ class TestBetaCdr3Tokeniser:
 
         assert torch.equal(tokenised_tcr, expected)
 
-
     def test_tokenise_tcr_with_empty_beta_junction(self):
         tcr_with_empty_beta = schema.make_tcr_from_components(
             "TRAV1-1*01", "CASQYF", "TRBV2*01", None
@@ -108,7 +107,6 @@ class TestBetaCdrTokeniser:
         )
 
         assert torch.equal(tokenised_tcr, expected)
-
 
     def test_tokenise_tcr_with_empty_beta_junction(self):
         tcr_with_empty_beta = schema.make_tcr_from_components(

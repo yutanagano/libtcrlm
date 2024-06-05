@@ -28,9 +28,7 @@ class Cdr3Tokeniser(Tokeniser):
             tcr.junction_b_sequence, Cdr3CompartmentIndex.CDR3B
         )
 
-        all_cdrs_tokenised = (
-            [initial_cls_vector] + cdr3a + cdr3b
-        )
+        all_cdrs_tokenised = [initial_cls_vector] + cdr3a + cdr3b
 
         number_of_tokens_other_than_initial_cls = len(all_cdrs_tokenised) - 1
         if number_of_tokens_other_than_initial_cls == 0:

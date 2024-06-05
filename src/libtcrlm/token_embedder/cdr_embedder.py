@@ -140,7 +140,9 @@ class SingleChainCdrEmbedderWithRelativePositions(TokenEmbedder):
             padding_idx=DefaultTokenIndex.NULL,
         )
         self._position_embedding = SimpleRelativePositionEmbedding()
-        self._compartment_embedding = OneHotTokenIndexEmbedding(SingleChainCdrCompartmentIndex)
+        self._compartment_embedding = OneHotTokenIndexEmbedding(
+            SingleChainCdrCompartmentIndex
+        )
 
     def forward(self, tokenised_tcrs: LongTensor) -> FloatTensor:
         token_component = self._token_embedding.forward(tokenised_tcrs[:, :, 0])
@@ -159,7 +161,9 @@ class SingleChainCdrSimpleEmbedder(TokenEmbedder):
         super().__init__()
         self._token_embedding = OneHotTokenIndexEmbedding(AminoAcidTokenIndex)
         self._position_embedding = SimpleRelativePositionEmbedding()
-        self._compartment_embedding = OneHotTokenIndexEmbedding(SingleChainCdrCompartmentIndex)
+        self._compartment_embedding = OneHotTokenIndexEmbedding(
+            SingleChainCdrCompartmentIndex
+        )
 
     def forward(self, tokenised_tcrs: LongTensor) -> FloatTensor:
         token_component = self._token_embedding.forward(tokenised_tcrs[:, :, 0])

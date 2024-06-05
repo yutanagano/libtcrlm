@@ -110,11 +110,15 @@ class Tcr:
     @property
     def cdr2b_sequence(self) -> Optional[str]:
         return self._trbv.cdr2_sequence
-    
+
     @property
     def both_chains_specified(self) -> bool:
-        tra_specified = (not self._trav._gene_is_unknown()) or (not self.junction_a_sequence is None)
-        trb_specified = (not self._trbv._gene_is_unknown()) or (not self.junction_b_sequence is None)
+        tra_specified = (not self._trav._gene_is_unknown()) or (
+            not self.junction_a_sequence is None
+        )
+        trb_specified = (not self._trbv._gene_is_unknown()) or (
+            not self.junction_b_sequence is None
+        )
         return tra_specified and trb_specified
 
     def copy(self) -> "Tcr":

@@ -97,7 +97,7 @@ class Cdr3SimpleEmbedder(TokenEmbedder):
             [token_component, position_component, compartment_component], dim=-1
         )
         return all_components_stacked
-    
+
 
 class SingleChainCdr3SimpleEmbedder(TokenEmbedder):
     def __init__(self) -> None:

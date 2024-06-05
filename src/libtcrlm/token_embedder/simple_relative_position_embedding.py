@@ -18,9 +18,9 @@ class SimpleRelativePositionEmbedding(Module):
         )
 
         RELATIVE_POSITION_IF_ONLY_ONE_TOKEN_IN_COMPARTMENT = 0.5
-        relative_token_positions[
-            relative_token_positions.isnan()
-        ] = RELATIVE_POSITION_IF_ONLY_ONE_TOKEN_IN_COMPARTMENT
+        relative_token_positions[relative_token_positions.isnan()] = (
+            RELATIVE_POSITION_IF_ONLY_ONE_TOKEN_IN_COMPARTMENT
+        )
         relative_token_positions[null_mask] = 0
 
         relative_token_positions = relative_token_positions.unsqueeze(dim=-1)

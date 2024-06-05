@@ -3,7 +3,7 @@ from .cdr3_embedder import (
     Cdr3Embedder,
     Cdr3EmbedderWithRelativePositions,
     Cdr3SimpleEmbedder,
-    SingleChainCdr3SimpleEmbedder
+    SingleChainCdr3SimpleEmbedder,
 )
 from .cdr_embedder import (
     CdrBlosumEmbedder,
@@ -11,5 +11,5 @@ from .cdr_embedder import (
     CdrEmbedder,
     SingleChainCdrEmbedder,
     SingleChainCdrEmbedderWithRelativePositions,
-    SingleChainCdrSimpleEmbedder
+    SingleChainCdrSimpleEmbedder,
 )

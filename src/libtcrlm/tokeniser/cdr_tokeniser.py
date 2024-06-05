@@ -1,5 +1,9 @@
 from libtcrlm.tokeniser.tokeniser import Tokeniser
-from libtcrlm.tokeniser.token_indices import AminoAcidTokenIndex, CdrCompartmentIndex, SingleChainCdrCompartmentIndex
+from libtcrlm.tokeniser.token_indices import (
+    AminoAcidTokenIndex,
+    CdrCompartmentIndex,
+    SingleChainCdrCompartmentIndex,
+)
 from libtcrlm.schema import Tcr
 import torch
 from torch import Tensor

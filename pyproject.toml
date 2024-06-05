@@ -30,6 +30,10 @@ dependencies = [
 ]
 dynamic = ["version"]
 
+[project.urls]
+Repository = "https://github.com/yutanagano/libtcrlm"
+Issues = "https://github.com/yutanagano/libtcrlm/issues"
+
 [project.optional-dependencies]
 dev = [
     "pytest",

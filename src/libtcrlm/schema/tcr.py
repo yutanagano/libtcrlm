@@ -1,8 +1,13 @@
 import copy
 from enum import Enum
+from libtcrlm.schema import exception
+import logging
 import re
-from tidytcells import tr
+import tidytcells as tt
 from typing import Optional, Union
+
+
+logger = logging.getLogger(__name__)
 
 
 def get_v_gene_indices(gene_symbol):
@@ -14,10 +19,10 @@ def get_v_gene_indices(gene_symbol):
     return (group_num, sub_num_if_any)
 
 
-functional_travs = tr.query(
+functional_travs = tt.tr.query(
     contains_pattern="TRAV", functionality="F", precision="gene"
 )
-functional_trbvs = tr.query(
+functional_trbvs = tt.tr.query(
     contains_pattern="TRBV", functionality="F", precision="gene"
 )
 
@@ -46,7 +51,7 @@ class Tcrv:
             return None
 
         allele_symbol = self.__repr__()
-        cdr1 = tr.get_aa_sequence(allele_symbol)["CDR1-IMGT"]
+        cdr1 = tt.tr.get_aa_sequence(allele_symbol)["CDR1-IMGT"]
         return cdr1
 
     @property
@@ -55,7 +60,7 @@ class Tcrv:
             return None
 
         allele_symbol = self.__repr__()
-        aa_sequence_dictionary = tr.get_aa_sequence(allele_symbol)
+        aa_sequence_dictionary = tt.tr.get_aa_sequence(allele_symbol)
 
         if "CDR2-IMGT" not in aa_sequence_dictionary:
             return ""
@@ -114,10 +119,10 @@ class Tcr:
     @property
     def both_chains_specified(self) -> bool:
         tra_specified = (not self._trav._gene_is_unknown()) or (
-            not self.junction_a_sequence is None
+            self.junction_a_sequence is not None
         )
         trb_specified = (not self._trbv._gene_is_unknown()) or (
-            not self.junction_b_sequence is None
+            self.junction_b_sequence is not None
         )
         return tra_specified and trb_specified
 
@@ -163,6 +168,9 @@ def make_tcr_from_components(
 ) -> Tcr:
     trav = _get_trav_from_symbol(trav_symbol)
     trbv = _get_trbv_from_symbol(trbv_symbol)
+    _ensure_valid_junction(junction_a_sequence)
+    _ensure_valid_junction(junction_b_sequence)
+
     return Tcr(
         trav=trav,
         junction_a_sequence=junction_a_sequence,
@@ -191,11 +199,15 @@ def _get_trbv_from_symbol(symbol: Optional[str]) -> Tcrv:
 
 def _get_trav_gene_object_from_symbol(symbol: str) -> TravGene:
     str_representing_gene = symbol.split("*")[0]
+    if str_representing_gene not in TravGene.__members__:
+        raise exception.BadV("A")
     return TravGene[str_representing_gene]
 
 
 def _get_trbv_gene_object_from_symbol(symbol: str) -> TrbvGene:
     str_representing_gene = symbol.split("*")[0]
+    if str_representing_gene not in TrbvGene.__members__:
+        raise exception.BadV("B")
     return TrbvGene[str_representing_gene]
 
 
@@ -209,3 +221,18 @@ def _get_allele_number_from_symbol(symbol: str) -> int:
     str_representing_allele_number = split_at_asterisk[1]
 
     return int(str_representing_allele_number)
+
+
+def _ensure_valid_junction(junction: Optional[str]):
+    if junction is None:
+        return
+
+    standardised = tt.junction.standardize(junction, strict=False, log_failures=False)
+
+    if standardised is None:
+        raise exception.BadJunction()
+
+    if standardised != junction:
+        logger.warning(
+            f"{junction} doesn't look like a standardised junction. Are you sure you've standardised?"
+        )

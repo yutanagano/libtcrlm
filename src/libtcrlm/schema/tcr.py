@@ -4,7 +4,7 @@ from libtcrlm.schema import exception
 import logging
 import re
 import tidytcells as tt
-from typing import Optional, Union
+from typing import Literal, Optional, Union
 
 
 logger = logging.getLogger(__name__)
@@ -168,8 +168,8 @@ def make_tcr_from_components(
 ) -> Tcr:
     trav = _get_trav_from_symbol(trav_symbol)
     trbv = _get_trbv_from_symbol(trbv_symbol)
-    _ensure_valid_junction(junction_a_sequence)
-    _ensure_valid_junction(junction_b_sequence)
+    _ensure_valid_junction(junction_a_sequence, "A")
+    _ensure_valid_junction(junction_b_sequence, "B")
 
     return Tcr(
         trav=trav,
@@ -223,14 +223,14 @@ def _get_allele_number_from_symbol(symbol: str) -> int:
     return int(str_representing_allele_number)
 
 
-def _ensure_valid_junction(junction: Optional[str]):
+def _ensure_valid_junction(junction: Optional[str], chain: Literal["A", "B"]):
     if junction is None:
         return
 
     standardised = tt.junction.standardize(junction, strict=False, log_failures=False)
 
     if standardised is None:
-        raise exception.BadJunction()
+        raise exception.BadJunction(chain)
 
     if standardised != junction:
         logger.warning(

@@ -7,4 +7,5 @@ class BadV(Exception):
 
 
 class BadJunction(Exception):
-    pass
+    def __init__(self, chain: Literal["A", "B"]):
+        self.chain = chain

@@ -60,6 +60,14 @@ def _generate_tcr_from_row(row: Series) -> Tcr:
             "Have you ensured that all TR V symbols are standardised and functional? "
             "You can use tidytcells with specific flags to filter out non-valid data (see https://tidytcells.readthedocs.io)."
         )
+    except exception.BadJunction as e:
+        colname = f"CDR3{e.chain}"
+        bad_junction = row[colname]
+        raise ValueError(
+            f"Bad {colname} sequence at index {row.name}: {bad_junction}. "
+            "Have you ensured that all CDR3 sequences are standardised and valid? "
+            "You can use tidytcells with specific flags to filter out non-valid data (see https://tidytcells.readthedocs.io)."
+        )
 
 
 def _get_value_if_not_na_else_none(value) -> any:

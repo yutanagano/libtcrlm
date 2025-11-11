@@ -1,5 +1,4 @@
 import pytest
-
 from libtcrlm import schema
 
 
@@ -85,3 +84,9 @@ def test_repr(mock_tcr):
 def test_equality(anchor, comparison, expected):
     result = anchor == comparison
     assert result == expected
+
+
+def test_allele_imputation():
+    tcr = schema.make_tcr_from_components("TRAV1-1", "CATQYF", "TRBV12-2", "CASQYF")
+    assert tcr._trav.allele_num == 1
+    assert tcr._trbv.allele_num == 2

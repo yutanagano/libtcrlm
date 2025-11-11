@@ -43,7 +43,7 @@ class Tcrv:
         self.allele_num = allele_num
 
         if not self._gene_is_unknown() and self._allele_is_unknown():
-            self._assume_first_allele()
+            self._assume_first_functional_allele()
 
     @property
     def cdr1_sequence(self) -> Optional[str]:
@@ -82,8 +82,16 @@ class Tcrv:
     def _allele_is_unknown(self) -> bool:
         return self.allele_num is None
 
-    def _assume_first_allele(self) -> None:
-        self.allele_num = 1
+    def _assume_first_functional_allele(self) -> None:
+        alleles = tt.tr.query(
+            contains_pattern=self.gene.name, precision="allele", functionality="F"
+        )
+
+        if len(alleles) == 0:
+            raise ValueError(f"{self.gene} has no functional alleles")
+
+        allele_nums = [int(symbol.split("*")[1]) for symbol in alleles]
+        self.allele_num = sorted(allele_nums)[0]
 
 
 class Tcr:

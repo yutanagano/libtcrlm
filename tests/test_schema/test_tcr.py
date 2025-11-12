@@ -1,4 +1,5 @@
 import pytest
+import libtcrlm
 from libtcrlm import schema
 from libtcrlm.schema import exception
 
@@ -99,7 +100,7 @@ def test_setup():
         _ = schema.make_tcr_from_components("TRAV1*01", "CATQYF", "TRBV1*01", "CASQYF")
 
     # Set up schema library for experimental Mus musculus use
-    schema.tcr.setup("musmusculus")
+    libtcrlm.setup("musmusculus")
     _ = schema.make_tcr_from_components("TRAV1*01", "CATQYF", "TRBV1*01", "CASQYF")
     with pytest.raises(exception.BadV):
         _ = schema.make_tcr_from_components(
@@ -107,4 +108,4 @@ def test_setup():
         )
 
     # Cleanup
-    schema.tcr.setup("homosapiens")
+    libtcrlm.setup("homosapiens")

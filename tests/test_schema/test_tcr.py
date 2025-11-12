@@ -97,3 +97,14 @@ def test_setup():
     _ = schema.make_tcr_from_components("TRAV1-1*01", "CATQYF", "TRBV2*01", "CASQYF")
     with pytest.raises(exception.BadV):
         _ = schema.make_tcr_from_components("TRAV1*01", "CATQYF", "TRBV1*01", "CASQYF")
+
+    # Set up schema library for experimental Mus musculus use
+    schema.tcr.setup("musmusculus")
+    _ = schema.make_tcr_from_components("TRAV1*01", "CATQYF", "TRBV1*01", "CASQYF")
+    with pytest.raises(exception.BadV):
+        _ = schema.make_tcr_from_components(
+            "TRAV1-1*01", "CATQYF", "TRBV2*01", "CASQYF"
+        )
+
+    # Cleanup
+    schema.tcr.setup("homosapiens")

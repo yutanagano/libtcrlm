@@ -242,7 +242,9 @@ def _ensure_valid_junction(junction: Optional[str], chain: Literal["A", "B"]):
     if junction is None:
         return
 
-    standardised = tt.junction.standardize(junction, strict=False, log_failures=False)
+    standardised = tt.junction.standardize(
+        junction, fix_missing_conserved=True, log_failures=False
+    )
 
     if standardised is None:
         raise exception.BadJunction(chain)

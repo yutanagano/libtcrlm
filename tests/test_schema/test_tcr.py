@@ -94,35 +94,42 @@ def test_allele_imputation():
     assert tcr._trbv.allele_num == 2
 
 
-def test_setup():
-    tcr = schema.make_tcr_from_components("TRAV1-1*01", "CATQYF", "TRBV2*01", "CASQYF")
-    tcr.cdr1a_sequence == "TSGFYG"
-    tcr.cdr2a_sequence == "NALDGL"
-    tcr.junction_a_sequence == "CATQYF"
-    tcr.cdr1b_sequence == "SNHLY"
-    tcr.cdr2b_sequence == "FYNNEI"
-    tcr.junction_b_sequence == "CASQYF"
-
-    with pytest.raises(exception.BadV):
-        tcr = schema.make_tcr_from_components(
-            "TRAV1*01", "CATQYF", "TRBV1*01", "CASQYF"
-        )
-
-    # Set up schema library for experimental Mus musculus use
-    libtcrlm.setup("musmusculus")
-
-    tcr = schema.make_tcr_from_components("TRAV1*01", "CATQYF", "TRBV1*01", "CASQYF")
-    tcr.cdr1a_sequence == "TSGFYG"
-    tcr.cdr2a_sequence == "NALDGL"
-    tcr.junction_a_sequence == "CATQYF"
-    tcr.cdr1b_sequence == "SNHLY"
-    tcr.cdr2b_sequence == "FYNNEI"
-    tcr.junction_b_sequence == "CASQYF"
-
-    with pytest.raises(exception.BadV):
+class TestSetup:
+    def test_homosapiens_setup(self):
         tcr = schema.make_tcr_from_components(
             "TRAV1-1*01", "CATQYF", "TRBV2*01", "CASQYF"
         )
+        tcr.cdr1a_sequence == "TSGFYG"
+        tcr.cdr2a_sequence == "NALDGL"
+        tcr.junction_a_sequence == "CATQYF"
+        tcr.cdr1b_sequence == "SNHLY"
+        tcr.cdr2b_sequence == "FYNNEI"
+        tcr.junction_b_sequence == "CASQYF"
 
-    # Cleanup
+        with pytest.raises(exception.BadV):
+            tcr = schema.make_tcr_from_components(
+                "TRAV1*01", "CATQYF", "TRBV1*01", "CASQYF"
+            )
+
+    def test_musmusculus_setup(self, trigger_musmusculus_setup):
+        tcr = schema.make_tcr_from_components(
+            "TRAV1*01", "CATQYF", "TRBV1*01", "CASQYF"
+        )
+        tcr.cdr1a_sequence == "TSGFYG"
+        tcr.cdr2a_sequence == "NALDGL"
+        tcr.junction_a_sequence == "CATQYF"
+        tcr.cdr1b_sequence == "SNHLY"
+        tcr.cdr2b_sequence == "FYNNEI"
+        tcr.junction_b_sequence == "CASQYF"
+
+        with pytest.raises(exception.BadV):
+            tcr = schema.make_tcr_from_components(
+                "TRAV1-1*01", "CATQYF", "TRBV2*01", "CASQYF"
+            )
+
+
+@pytest.fixture
+def trigger_musmusculus_setup():
+    libtcrlm.setup("musmusculus")
+    yield
     libtcrlm.setup("homosapiens")

@@ -8,6 +8,11 @@ from typing import Literal, Optional, Union
 
 
 def setup(species: Literal["homosapiens", "musmusculus"] = "homosapiens"):
+    if species.lower() not in ("homosapiens", "musmusculus"):
+        raise ValueError(
+            f'the only two supported species are currently "homosapiens" or "musmusculus" (received: "{species}")'
+        )
+
     global TravGene, TrbvGene
 
     def get_v_gene_indices(gene_symbol):

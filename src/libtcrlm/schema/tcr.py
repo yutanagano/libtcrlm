@@ -7,32 +7,34 @@ import tidytcells as tt
 from typing import Literal, Optional, Union
 
 
+def setup(species: Literal["homosapiens", "musmusculus"] = "homosapiens"):
+    global TravGene, TrbvGene
+
+    def get_v_gene_indices(gene_symbol):
+        match = re.match(r"TR[AB]V([0-9]+)(-([0-9]+))?", gene_symbol)
+
+        group_num = int(match.group(1))
+        sub_num_if_any = 0 if match.group(3) is None else int(match.group(3))
+
+        return (group_num, sub_num_if_any)
+
+    functional_travs = tt.tr.query(
+        species=species, contains_pattern="TRAV", functionality="F", precision="gene"
+    )
+    functional_trbvs = tt.tr.query(
+        species=species, contains_pattern="TRBV", functionality="F", precision="gene"
+    )
+
+    TravGene = Enum(
+        "TravGene", sorted(functional_travs, key=get_v_gene_indices), module=__name__
+    )
+    TrbvGene = Enum(
+        "TrbvGene", sorted(functional_trbvs, key=get_v_gene_indices), module=__name__
+    )
+
+
 logger = logging.getLogger(__name__)
-
-
-def get_v_gene_indices(gene_symbol):
-    match = re.match(r"TR[AB]V([0-9]+)(-([0-9]+))?", gene_symbol)
-
-    group_num = int(match.group(1))
-    sub_num_if_any = 0 if match.group(3) is None else int(match.group(3))
-
-    return (group_num, sub_num_if_any)
-
-
-functional_travs = tt.tr.query(
-    contains_pattern="TRAV", functionality="F", precision="gene"
-)
-functional_trbvs = tt.tr.query(
-    contains_pattern="TRBV", functionality="F", precision="gene"
-)
-
-
-TravGene = Enum(
-    "TravGene", sorted(functional_travs, key=get_v_gene_indices), module=__name__
-)
-TrbvGene = Enum(
-    "TrbvGene", sorted(functional_trbvs, key=get_v_gene_indices), module=__name__
-)
+setup()
 
 
 class Tcrv:

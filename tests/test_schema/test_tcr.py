@@ -1,5 +1,7 @@
 import pytest
+import libtcrlm
 from libtcrlm import schema
+from libtcrlm.schema import exception
 
 
 def test_cdr1a_sequence(mock_tcr):
@@ -90,3 +92,20 @@ def test_allele_imputation():
     tcr = schema.make_tcr_from_components("TRAV1-1", "CATQYF", "TRBV12-2", "CASQYF")
     assert tcr._trav.allele_num == 1
     assert tcr._trbv.allele_num == 2
+
+
+def test_setup():
+    _ = schema.make_tcr_from_components("TRAV1-1*01", "CATQYF", "TRBV2*01", "CASQYF")
+    with pytest.raises(exception.BadV):
+        _ = schema.make_tcr_from_components("TRAV1*01", "CATQYF", "TRBV1*01", "CASQYF")
+
+    # Set up schema library for experimental Mus musculus use
+    libtcrlm.setup("musmusculus")
+    _ = schema.make_tcr_from_components("TRAV1*01", "CATQYF", "TRBV1*01", "CASQYF")
+    with pytest.raises(exception.BadV):
+        _ = schema.make_tcr_from_components(
+            "TRAV1-1*01", "CATQYF", "TRBV2*01", "CASQYF"
+        )
+
+    # Cleanup
+    libtcrlm.setup("homosapiens")

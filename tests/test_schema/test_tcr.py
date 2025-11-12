@@ -95,15 +95,32 @@ def test_allele_imputation():
 
 
 def test_setup():
-    _ = schema.make_tcr_from_components("TRAV1-1*01", "CATQYF", "TRBV2*01", "CASQYF")
+    tcr = schema.make_tcr_from_components("TRAV1-1*01", "CATQYF", "TRBV2*01", "CASQYF")
+    tcr.cdr1a_sequence == "TSGFYG"
+    tcr.cdr2a_sequence == "NALDGL"
+    tcr.junction_a_sequence == "CATQYF"
+    tcr.cdr1b_sequence == "SNHLY"
+    tcr.cdr2b_sequence == "FYNNEI"
+    tcr.junction_b_sequence == "CASQYF"
+
     with pytest.raises(exception.BadV):
-        _ = schema.make_tcr_from_components("TRAV1*01", "CATQYF", "TRBV1*01", "CASQYF")
+        tcr = schema.make_tcr_from_components(
+            "TRAV1*01", "CATQYF", "TRBV1*01", "CASQYF"
+        )
 
     # Set up schema library for experimental Mus musculus use
     libtcrlm.setup("musmusculus")
-    _ = schema.make_tcr_from_components("TRAV1*01", "CATQYF", "TRBV1*01", "CASQYF")
+
+    tcr = schema.make_tcr_from_components("TRAV1*01", "CATQYF", "TRBV1*01", "CASQYF")
+    tcr.cdr1a_sequence == "TSGFYG"
+    tcr.cdr2a_sequence == "NALDGL"
+    tcr.junction_a_sequence == "CATQYF"
+    tcr.cdr1b_sequence == "SNHLY"
+    tcr.cdr2b_sequence == "FYNNEI"
+    tcr.junction_b_sequence == "CASQYF"
+
     with pytest.raises(exception.BadV):
-        _ = schema.make_tcr_from_components(
+        tcr = schema.make_tcr_from_components(
             "TRAV1-1*01", "CATQYF", "TRBV2*01", "CASQYF"
         )
 

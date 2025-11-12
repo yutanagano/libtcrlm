@@ -13,7 +13,9 @@ def setup(species: Literal["homosapiens", "musmusculus"] = "homosapiens"):
             f'the only two supported species are currently "homosapiens" or "musmusculus" (received: "{species}")'
         )
 
-    global TravGene, TrbvGene
+    global SPECIES, TravGene, TrbvGene
+
+    SPECIES = species
 
     def get_v_gene_indices(gene_symbol):
         match = re.match(r"TR[AB]V([0-9]+)(-([0-9]+))?", gene_symbol)
@@ -58,7 +60,7 @@ class Tcrv:
             return None
 
         allele_symbol = self.__repr__()
-        cdr1 = tt.tr.get_aa_sequence(allele_symbol)["CDR1-IMGT"]
+        cdr1 = tt.tr.get_aa_sequence(allele_symbol, species=SPECIES)["CDR1-IMGT"]
         return cdr1
 
     @property
@@ -67,7 +69,7 @@ class Tcrv:
             return None
 
         allele_symbol = self.__repr__()
-        aa_sequence_dictionary = tt.tr.get_aa_sequence(allele_symbol)
+        aa_sequence_dictionary = tt.tr.get_aa_sequence(allele_symbol, species=SPECIES)
 
         if "CDR2-IMGT" not in aa_sequence_dictionary:
             return ""

@@ -99,12 +99,12 @@ class TestSetup:
         tcr = schema.make_tcr_from_components(
             "TRAV1-1*01", "CATQYF", "TRBV2*01", "CASQYF"
         )
-        tcr.cdr1a_sequence == "TSGFYG"
-        tcr.cdr2a_sequence == "NALDGL"
-        tcr.junction_a_sequence == "CATQYF"
-        tcr.cdr1b_sequence == "SNHLY"
-        tcr.cdr2b_sequence == "FYNNEI"
-        tcr.junction_b_sequence == "CASQYF"
+        assert tcr.cdr1a_sequence == "TSGFYG"
+        assert tcr.cdr2a_sequence == "NALDGL"
+        assert tcr.junction_a_sequence == "CATQYF"
+        assert tcr.cdr1b_sequence == "SNHLY"
+        assert tcr.cdr2b_sequence == "FYNNEI"
+        assert tcr.junction_b_sequence == "CASQYF"
 
         with pytest.raises(exception.BadV):
             tcr = schema.make_tcr_from_components(
@@ -115,12 +115,12 @@ class TestSetup:
         tcr = schema.make_tcr_from_components(
             "TRAV1*01", "CATQYF", "TRBV1*01", "CASQYF"
         )
-        tcr.cdr1a_sequence == "TSGFYG"
-        tcr.cdr2a_sequence == "NALDGL"
-        tcr.junction_a_sequence == "CATQYF"
-        tcr.cdr1b_sequence == "SNHLY"
-        tcr.cdr2b_sequence == "FYNNEI"
-        tcr.junction_b_sequence == "CASQYF"
+        assert tcr.cdr1a_sequence == "TSGFNG"
+        assert tcr.cdr2a_sequence == "VVLDGL"
+        assert tcr.junction_a_sequence == "CATQYF"
+        assert tcr.cdr1b_sequence == "NSQYPW"
+        assert tcr.cdr2b_sequence == "LRSPGD"
+        assert tcr.junction_b_sequence == "CASQYF"
 
         with pytest.raises(exception.BadV):
             tcr = schema.make_tcr_from_components(

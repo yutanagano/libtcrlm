@@ -93,7 +93,7 @@ class Tcrv:
 
     def _assume_first_functional_allele(self) -> None:
         alleles = tt.tr.query(
-            contains_pattern=self.gene.name, precision="allele", functionality="F"
+            contains_pattern=self.gene.name, precision="allele", functionality="F", species=SPECIES
         )
 
         if len(alleles) == 0:

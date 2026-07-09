@@ -179,14 +179,16 @@ class Tcr:
 
 def make_tcr_from_components(
     trav_symbol: Optional[str],
+    traj_symbol: Optional[str],
     junction_a_sequence: Optional[str],
     trbv_symbol: Optional[str],
+    trbj_symbol: Optional[str],
     junction_b_sequence: Optional[str],
 ) -> Tcr:
     trav = _get_trav_from_symbol(trav_symbol)
     trbv = _get_trbv_from_symbol(trbv_symbol)
-    _ensure_valid_junction(junction_a_sequence, "A")
-    _ensure_valid_junction(junction_b_sequence, "B")
+    _ensure_valid_junction(junction_a_sequence, "A", traj_symbol)
+    _ensure_valid_junction(junction_b_sequence, "B",trbj_symbol)
 
     return Tcr(
         trav=trav,
@@ -240,17 +242,27 @@ def _get_allele_number_from_symbol(symbol: str) -> int:
     return int(str_representing_allele_number)
 
 
-def _ensure_valid_junction(junction: Optional[str], chain: Literal["A", "B"]):
+
+def _ensure_valid_junction(
+    junction: Optional[str],
+    chain: Literal["A", "B"],
+    j_symbol: Optional[str] = None,
+):
     if junction is None:
         return
 
+    if j_symbol is not None:
+        j_symbol = tt.tr.standardise(
+            j_symbol, enforce_functional=True, suppress_warnings=True
+        )
+
     standardised = tt.junction.standardize(
-        junction, fix_missing_conserved=True, log_failures=False
+        junction, j_symbol=j_symbol, fix_missing_conserved=True, log_failures=False
     )
 
     if standardised is None:
         raise exception.BadJunction(chain)
-
+    
     if standardised != junction:
         logger.warning(
             f"{junction} doesn't look like a standardised junction. Are you sure you've standardised?"
